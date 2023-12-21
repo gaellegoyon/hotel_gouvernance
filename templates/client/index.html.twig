@@ -1,0 +1,60 @@
+<!DOCTYPE html>
+<html data-bs-theme="light" lang="fr">
+
+<head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, shrink-to-fit=no">
+    <title>{% block title %}Gouvernance Hôtel{% endblock %}</title>
+
+    {% block stylesheets %}
+    <link rel="stylesheet" href="/client/assets/bootstrap/css/bootstrap.min.css">
+    <link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Montserrat&display=swap">
+    <link rel="stylesheet" href="/client/assets/css/bs-theme-overrides.css">
+    <link rel="stylesheet" href="/client/assets/css/Navbar-Right-Links-icons.css">
+    {% endblock %}
+    {% block javascripts %}
+    <script src="/assets/bootstrap/js/bootstrap.min.js"></script>
+    {% endblock %}
+</head>
+
+<body style="padding: 0px;">
+{% block body %}
+    <nav class="navbar navbar-expand-md bg-transparent py-3" style="background: rgba(255,255,255,0);">
+        <div class="container"><a class="navbar-brand d-flex align-items-center" href="#"><span class="bs-icon-sm bs-icon-rounded bs-icon-primary d-flex justify-content-center align-items-center me-2 bs-icon"><svg xmlns="http://www.w3.org/2000/svg" width="1em" height="1em" fill="currentColor" viewBox="0 0 16 16" class="bi bi-houses">
+                        <path d="M5.793 1a1 1 0 0 1 1.414 0l.647.646a.5.5 0 1 1-.708.708L6.5 1.707 2 6.207V12.5a.5.5 0 0 0 .5.5.5.5 0 0 1 0 1A1.5 1.5 0 0 1 1 12.5V7.207l-.146.147a.5.5 0 0 1-.708-.708L5.793 1Zm3 1a1 1 0 0 1 1.414 0L12 3.793V2.5a.5.5 0 0 1 .5-.5h1a.5.5 0 0 1 .5.5v3.293l1.854 1.853a.5.5 0 0 1-.708.708L15 8.207V13.5a1.5 1.5 0 0 1-1.5 1.5h-8A1.5 1.5 0 0 1 4 13.5V8.207l-.146.147a.5.5 0 1 1-.708-.708L8.793 2Zm.707.707L5 7.207V13.5a.5.5 0 0 0 .5.5h8a.5.5 0 0 0 .5-.5V7.207l-4.5-4.5Z"></path>
+                    </svg></span><span>Gouvernance Hôtel</span></a><button data-bs-toggle="collapse" class="navbar-toggler" data-bs-target="#navcol-2"><span class="visually-hidden">Toggle navigation</span><span class="navbar-toggler-icon"></span></button>
+            <div class="collapse navbar-collapse" id="navcol-2">
+                <ul class="navbar-nav ms-auto">
+                    <li class="nav-item"><a class="nav-link active link-secondary" href="#">Notre groupe</a></li>
+                    <li class="nav-item"><a class="nav-link link-secondary" href="#">Nos services</a></li>
+                    <li class="nav-item"><a class="nav-link link-secondary" href="#">Nous contacter</a></li>
+                </ul><a class="btn btn-primary ms-md-2" role="button" href="#">Réserver</a>
+            </div>
+        </div>
+    </nav>
+    <div style="position: relative;"><img style="background: url('/client/assets/img/background.jpg') center / cover no-repeat;width: 100%;height: 92.3vh;filter: brightness(77%);" width="100" height="80" src="/client/assets/img/background.jpg">
+        <div style="position: absolute;bottom: 50%;width: 100%;">
+            <h1 class="fs-1 text-center" style="color: var(--bs-body-bg);">Osez l'excellence, vivez le luxe</h1>
+        </div>
+        {{ form_start(rechercheForm)}}
+            <div class="container d-flex flex-column justify-content-center align-items-stretch" style="width: 100%;">
+                <div class="col">
+                    <p class="fs-3 fw-bold" style="text-align: center;margin: 2rem;">Réserver votre séjour !</p>
+                    <div class="row justify-content-around align-items-end">
+                        <div class="col-md-4" style="width: 20%;"> 
+                        {{ form_label(rechercheForm.lieu, 'Lieu', { 'label_attr': {'class': 'form-label'} }) }}
+                        {{ form_widget(rechercheForm.lieu, { 'attr': {'class': 'form-select'} }) }}
+                        </div>
+                        <div class="col-md-4" style="width: 20%;"><label class="form-label">Personnes</label><input class="form-control" type="number" min="1" max="20"></div>
+                        <div class="col-md-4" style="width: 20%;"><label class="form-label">Date d'arrivée</label><input class="form-control" type="date"></div>
+                        <div class="col-md-4" style="width: 20%;"><label class="form-label">Date de départ</label><input class="form-control" type="date"></div>
+                        <div class="col-md-4 d-flex justify-content-end" style="width: 20%;max-width: 100%;"><button class="btn btn-primary" type="button">Rechercher</button></div>
+                    </div>
+                </div>
+            </div>
+        {{ form_end(rechercheForm)}}
+    </div>
+    {% endblock %}
+</body>
+
+</html>
