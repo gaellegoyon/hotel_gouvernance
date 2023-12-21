@@ -3,8 +3,6 @@
 namespace App\Entity;
 
 use App\Repository\ReservationRepository;
-use Doctrine\Common\Collections\ArrayCollection;
-use Doctrine\Common\Collections\Collection;
 use Doctrine\DBAL\Types\Types;
 use Doctrine\ORM\Mapping as ORM;
 
@@ -15,12 +13,6 @@ class Reservation
     #[ORM\GeneratedValue]
     #[ORM\Column]
     private ?int $id = null;
-
-    #[ORM\OneToMany(mappedBy: 'reservation', targetEntity: chambre::class)]
-    private Collection $chambre;
-
-    #[ORM\ManyToMany(mappedBy: 'reservation', targetEntity: service::class)]
-    private Collection $service;
 
     #[ORM\Column(length: 255)]
     private ?string $nom_client = null;
@@ -40,75 +32,15 @@ class Reservation
     #[ORM\Column(type: Types::DATE_MUTABLE, nullable: true)]
     private ?\DateTimeInterface $date_fin = null;
 
-    public function __construct()
-    {
-        $this->chambre = new ArrayCollection();
-        $this->service = new ArrayCollection();
-    }
+    #[ORM\ManyToOne(inversedBy: 'reservations')]
+    private ?chambre $chambre = null;
+
+    #[ORM\ManyToOne(inversedBy: 'reservations')]
+    private ?service $service = null;
 
     public function getId(): ?int
     {
         return $this->id;
-    }
-
-    /**
-     * @return Collection<int, chambre>
-     */
-    public function getChambre(): Collection
-    {
-        return $this->chambre;
-    }
-
-    public function addChambre(chambre $chambre): static
-    {
-        if (!$this->chambre->contains($chambre)) {
-            $this->chambre->add($chambre);
-            $chambre->setReservation($this);
-        }
-
-        return $this;
-    }
-
-    public function removeChambre(chambre $chambre): static
-    {
-        if ($this->chambre->removeElement($chambre)) {
-            // set the owning side to null (unless already changed)
-            if ($chambre->getReservation() === $this) {
-                $chambre->setReservation(null);
-            }
-        }
-
-        return $this;
-    }
-
-    /**
-     * @return Collection<int, service>
-     */
-    public function getService(): Collection
-    {
-        return $this->service;
-    }
-
-    public function addService(service $service): static
-    {
-        if (!$this->service->contains($service)) {
-            $this->service->add($service);
-            $service->setReservation($this);
-        }
-
-        return $this;
-    }
-
-    public function removeService(service $service): static
-    {
-        if ($this->service->removeElement($service)) {
-            // set the owning side to null (unless already changed)
-            if ($service->getReservation() === $this) {
-                $service->setReservation(null);
-            }
-        }
-
-        return $this;
     }
 
     public function getNomClient(): ?string
@@ -179,6 +111,30 @@ class Reservation
     public function setDateFin(?\DateTimeInterface $date_fin): static
     {
         $this->date_fin = $date_fin;
+
+        return $this;
+    }
+
+    public function getChambre(): ?chambre
+    {
+        return $this->chambre;
+    }
+
+    public function setChambre(?chambre $chambre): static
+    {
+        $this->chambre = $chambre;
+
+        return $this;
+    }
+
+    public function getService(): ?service
+    {
+        return $this->service;
+    }
+
+    public function setService(?service $service): static
+    {
+        $this->service = $service;
 
         return $this;
     }
