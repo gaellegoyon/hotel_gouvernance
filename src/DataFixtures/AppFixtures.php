@@ -6,6 +6,7 @@ use App\Entity\Chambre;
 use App\Entity\Hotel;
 use App\Entity\Reservation;
 use App\Entity\Service;
+use App\Entity\User;
 use Doctrine\Bundle\FixturesBundle\Fixture;
 use Doctrine\Persistence\ObjectManager;
 
@@ -54,6 +55,21 @@ class AppFixtures extends Fixture
                     $service->setTarif($u+15);
                     $service->addReservation($reservation);
                     $manager->persist($service);
+                }
+                for ($z = 1; $z < 10; $z++) {
+                    $user = new User();
+                    $user->setHotel($hotel);
+                    $user->setNom('nom'.$z);
+                    $user->setEmail('nom'.$z. '.test@test.com');
+                    $user->setPassword("$2y$10\$MBbQI39oxmclR8ReZnAmR.dDnP7AD955VBTNB4urnc3OUM.1XQQ.i");
+                    $user->setTelephone('06589874'.$z);
+                    if ($z % 2 === 0) {
+                        $user->setRole("ROLE_ADMIN");
+                        $manager->persist($user);
+                    } else {
+                        $user->setRole("ROLE_USER");
+                        $manager->persist($user);
+                    }
                 }
             }
             $manager->flush();
