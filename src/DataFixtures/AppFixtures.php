@@ -15,14 +15,14 @@ class AppFixtures extends Fixture
     public function load(ObjectManager $manager): void
     {
         
-        for($i = 0; $i < 10; $i++) {
+        for($i = 0; $i < 2; $i++) {
             $hotel = new Hotel();
             $hotel->setNom('nom '.$i);
             $hotel->setLieu('lieu'.$i);
             $hotel->setNbChambre($i);
             $manager->persist($hotel);
             $manager->flush();
-            for ($y = 1; $y < 30; $y = $y+3) {
+            for ($y = 1; $y < 30; $y = $y+5) {
                 $chambre = new Chambre();
                 $reservation = new Reservation();
                 $reservation
@@ -47,7 +47,7 @@ class AppFixtures extends Fixture
                     $manager->persist($chambre);
                 }
                 $manager->persist($chambre);
-                for ($u = 1; $u < 10; $u++) {
+                for ($u = 1; $u < 5; $u++) {
                     $service = new Service();
                     $service->setHotel($hotel);
                     $service->setLibelle('serv'.$u);
@@ -56,23 +56,47 @@ class AppFixtures extends Fixture
                     $service->addReservation($reservation);
                     $manager->persist($service);
                 }
-                for ($z = 1; $z < 10; $z++) {
+                for ($z = 1; $z < 2; $z++) {
                     $user = new User();
                     $user->setHotel($hotel);
                     $user->setNom('nom'.$z);
-                    $user->setEmail('nom'.$z. '.test@test.com');
-                    $user->setPassword("$2y$10\$MBbQI39oxmclR8ReZnAmR.dDnP7AD955VBTNB4urnc3OUM.1XQQ.i");
+                    $email = 'test'.uniqid().'@gmail.com';
+                    $user->setEmail($email);
+                    var_dump($user->getEmail());
+                    $user->setPassword("test");
                     $user->setTelephone('06589874'.$z);
                     if ($z % 2 === 0) {
-                        $user->setRole("ROLE_ADMIN");
+                        $user->setRoles(["ROLE_ADMIN"]);
                         $manager->persist($user);
                     } else {
-                        $user->setRole("ROLE_USER");
+                        $user->setRoles(["ROLE_USER"]);
                         $manager->persist($user);
                     }
                 }
             }
             $manager->flush();
         }
+        $user = new User();
+                $user->setHotel($hotel);
+                $user->setNom('lucas');
+                $email = 'lucas.vivi66@gmail.com';
+                $user->setEmail($email);
+                var_dump($user->getEmail());
+                $user->setPassword("test");
+                $user->setTelephone('0658987425');
+                $user->setRoles(["ROLE_ADMIN"]);
+                $manager->persist($user);
+
+                $user = new User();
+                $user->setHotel($hotel);
+                $user->setNom('gaelle');
+                $email = 'gaelle@gmail.com';
+                $user->setEmail($email);
+                var_dump($user->getEmail());
+                $user->setPassword("test");
+                $user->setTelephone('0658987425');
+                $user->setRoles(["ROLE_ADMIN"]);
+                $manager->persist($user);
+                $manager->flush();
     }
 }

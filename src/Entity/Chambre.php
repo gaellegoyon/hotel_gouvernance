@@ -17,7 +17,7 @@ class Chambre
 
     #[ORM\ManyToOne(inversedBy: 'chambres')]
     #[ORM\JoinColumn(nullable: false)]
-    private ?hotel $hotel = null;
+    private ?Hotel $hotel = null;
 
     #[ORM\Column]
     private ?int $numero = null;
@@ -32,7 +32,7 @@ class Chambre
     private Collection $reservations;
 
     #[ORM\ManyToOne(inversedBy: 'chambres')]
-    private ?categorie $categorie = null;
+    private ?Categorie $categorie = null;
 
     public function __construct()
     {
