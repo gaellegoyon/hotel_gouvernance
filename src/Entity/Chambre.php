@@ -3,6 +3,8 @@
 namespace App\Entity;
 
 use App\Repository\ChambreRepository;
+use Doctrine\Common\Collections\ArrayCollection;
+use Doctrine\Common\Collections\Collection;
 use Doctrine\ORM\Mapping as ORM;
 
 #[ORM\Entity(repositoryClass: ChambreRepository::class)]
@@ -26,9 +28,13 @@ class Chambre
     #[ORM\Column(nullable: true)]
     private ?bool $etat = null;
 
-    #[ORM\ManyToOne(inversedBy: 'chambre')]
-    #[ORM\JoinColumn(nullable: false)]
-    private ?Reservation $reservation = null;
+    #[ORM\OneToMany(mappedBy: 'chambre', targetEntity: Reservation::class)]
+    private Collection $reservations;
+
+    public function __construct()
+    {
+        $this->reservations = new ArrayCollection();
+    }
 
     public function getId(): ?int
     {
@@ -83,14 +89,32 @@ class Chambre
         return $this;
     }
 
-    public function getReservation(): ?Reservation
+    /**
+     * @return Collection<int, Reservation>
+     */
+    public function getReservations(): Collection
     {
-        return $this->reservation;
+        return $this->reservations;
     }
 
-    public function setReservation(?Reservation $reservation): static
+    public function addReservation(Reservation $reservation): static
     {
-        $this->reservation = $reservation;
+        if (!$this->reservations->contains($reservation)) {
+            $this->reservations->add($reservation);
+            $reservation->setChambre($this);
+        }
+
+        return $this;
+    }
+
+    public function removeReservation(Reservation $reservation): static
+    {
+        if ($this->reservations->removeElement($reservation)) {
+            // set the owning side to null (unless already changed)
+            if ($reservation->getChambre() === $this) {
+                $reservation->setChambre(null);
+            }
+        }
 
         return $this;
     }

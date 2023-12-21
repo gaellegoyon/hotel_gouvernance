@@ -24,7 +24,6 @@ class RechercheFormType extends AbstractType
                 'Lyon' => 'Lyon',
             ],
         ])
-   
         ;
     }
 
