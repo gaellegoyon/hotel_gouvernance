@@ -62,8 +62,7 @@ class AppFixtures extends Fixture
                     $user->setNom('nom'.$z);
                     $email = 'test'.uniqid().'@gmail.com';
                     $user->setEmail($email);
-                    var_dump($user->getEmail());
-                    $user->setPassword("test");
+                    $user->setPassword(password_hash('test', PASSWORD_BCRYPT));
                     $user->setTelephone('06589874'.$z);
                     if ($z % 2 === 0) {
                         $user->setRoles(["ROLE_ADMIN"]);
@@ -81,8 +80,7 @@ class AppFixtures extends Fixture
                 $user->setNom('lucas');
                 $email = 'lucas.vivi66@gmail.com';
                 $user->setEmail($email);
-                var_dump($user->getEmail());
-                $user->setPassword("test");
+                $user->setPassword(password_hash('test', PASSWORD_BCRYPT));
                 $user->setTelephone('0658987425');
                 $user->setRoles(["ROLE_ADMIN"]);
                 $manager->persist($user);
@@ -92,8 +90,7 @@ class AppFixtures extends Fixture
                 $user->setNom('gaelle');
                 $email = 'gaelle@gmail.com';
                 $user->setEmail($email);
-                var_dump($user->getEmail());
-                $user->setPassword("test");
+                $user->setPassword(password_hash('test', PASSWORD_BCRYPT));
                 $user->setTelephone('0658987425');
                 $user->setRoles(["ROLE_ADMIN"]);
                 $manager->persist($user);
