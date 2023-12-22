@@ -7,6 +7,7 @@ use App\Form\RechercheFormType;
 use App\Repository\ChambreRepository;
 use Doctrine\ORM\EntityManagerInterface;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
+use Symfony\Component\HttpFoundation\JsonResponse;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\Routing\Annotation\Route;
@@ -44,26 +45,33 @@ class SearchResultController extends AbstractController
 
     #[Route('/create-reservation', name: 'app_create_reservation', methods: ['GET', 'POST'])]
     public function createReservation(Request $request, EntityManagerInterface $entityManager)
-    {
-        $chambreId = $request->get('chambreId');
-        $nom_client = $request->get('nom_client');
-        $tel_client = $request->get('tel_client');
-        $email_client = $request->get('email_client');
-      
-        dd($request, $_POST, $_GET, $chambreId, $nom_client, $tel_client, $email_client);
+{
+    $data = json_decode($request->getContent(), true);
+
+    $chambreId = $data['chambreId'] ?? null;
+    $nom_client = $data['nom_client'] ?? null;
+    $tel_client = $data['tel_client'] ?? null;
+    $email_client = $data['email_client'] ?? null;
+
 
         $reservation = new Reservation();
-    
+
         $reservation->setChambre($chambreId);
+        
+        // Assurez-vous que $nom_client est une chaîne avant de le définir
+        $nom_client = is_string($nom_client) ? $nom_client : '';
+        $tel_client = is_string($tel_client) ? $tel_client : '';
+        $email_client = is_string($email_client) ? $email_client : '';
+
+
         $reservation->setNomClient($nom_client);
         $reservation->setTelClient($tel_client);
         $reservation->setEmailClient($email_client);
-    
-        $entityManager->persist($reservation);
-    
 
+        $entityManager->persist($reservation);
         $entityManager->flush();
+
     
-        return new Response('Réservation créée avec succès!');
-    }
+}
+
 }

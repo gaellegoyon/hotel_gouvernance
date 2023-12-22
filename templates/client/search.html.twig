@@ -247,9 +247,9 @@
     var inputElement = document.querySelector('.input-chambre');
     var addButtons = document.querySelectorAll('.btn-primary.add-button');
 
-    // Déplacez la déclaration de createReservation ici
+    
     function createReservation(chambreId, nomClient, telClient, emailClient) {
-        // Utilisez Fetch pour envoyer les données au serveur Symfony
+       
         fetch('/create-reservation', {
             method: 'POST',
             headers: {
@@ -300,7 +300,7 @@
             if (panierContent && nomClientInput && telClientInput && emailClientInput) {
                 var panierContentText = panierContent.innerText;
                 var values = panierContentText.split(', ');
-                var chambreId = values[0].split(': ')[1];
+                var chambreId = 2;
 
                 // Récupérez les valeurs des champs de la modal
                 var nomClient = nomClientInput.value;
