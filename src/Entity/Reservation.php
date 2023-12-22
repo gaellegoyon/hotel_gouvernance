@@ -38,6 +38,21 @@ class Reservation
     #[ORM\ManyToOne(inversedBy: 'reservations')]
     private ?service $service = null;
 
+    public function __toString() {
+        return (string) $this->id;
+    }
+    public function getHotel(): ?string
+    {
+        // Vérifiez si la réservation a une chambre associée
+        if ($this->getChambre()) {
+            // Récupérez le nom de l'hôtel à partir de la chambre
+            return $this->getChambre()->getHotel()->getNom();
+        }
+
+        // Retournez null si la réservation n'a pas de chambre associée
+        return null;
+    }
+
     public function getId(): ?int
     {
         return $this->id;

@@ -39,17 +39,20 @@ class Chambre
         $this->reservations = new ArrayCollection();
     }
 
+    public function __toString() {
+        return 'Chambre numéro '. $this->numero;
+    }
     public function getId(): ?int
     {
         return $this->id;
     }
 
-    public function getHotel(): ?hotel
+    public function getHotel(): ?Hotel
     {
         return $this->hotel;
     }
 
-    public function setHotel(?hotel $hotel): static
+    public function setHotel(?Hotel $hotel): static
     {
         $this->hotel = $hotel;
 
@@ -122,12 +125,12 @@ class Chambre
         return $this;
     }
 
-    public function getCategorie(): ?categorie
+    public function getCategorie(): ?Categorie
     {
         return $this->categorie;
     }
 
-    public function setCategorie(?categorie $categorie): static
+    public function setCategorie(?Categorie $categorie): static
     {
         $this->categorie = $categorie;
 

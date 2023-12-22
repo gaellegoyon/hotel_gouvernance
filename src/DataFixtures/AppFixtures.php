@@ -36,7 +36,7 @@ class AppFixtures extends Fixture
                 ->setTelClient('061234567'.$y);
                 $manager->persist($reservation);
                 $chambre->setHotel($hotel);
-                $chambre->setNumero($y);
+                $chambre->setNumero($y);;
                 $chambre->addReservation($reservation);
                 $chambre->setNbLit($y);
                 if ($y % 2 === 0) {
