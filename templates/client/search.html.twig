@@ -52,36 +52,31 @@
 				</div>
 			</nav>
 			<form class="justify-content-center align-items-center align-content-center" style="box-shadow: 0px 10px 15px 0px rgba(0,0,0,0.1);position: relative;bottom: 10%;padding: 40px;border-radius: 1rem;">
+				{{ form_start(form)}}
 				<div class="col text-start justify-content-center align-items-center align-content-center">
 					<div class="row flex-shrink-1 flex-fill justify-content-evenly align-items-center align-content-center">
 						<div class="col">
-							<label class="col-form-label fw-bold">Lieu<select class="form-select" style="margin-top: 15px;">
-									<option value="12" selected="">This is item 1</option>
-									<option value="13">This is item 2</option>
-								</select>
+							{{ form_label(form.lieu, 'Lieu', { 'label_attr': {'class': 'col-form-label fw-bold'} }) }}
+							{{ form_widget(form.lieu, {'attr': {'class': 'form-select', 'style':'margin-top: 15px', 'value': form.vars.value.lieu ?? null}}) }}
+						</div>
+						<div class="col">
+							{{ form_label(form.libelle, 'Categorie', { 'label_attr': {'class': 'col-form-label fw-bold'} }) }}
+							{{ form_widget(form.libelle, { 'attr': {'class': 'form-select', 'style':'margin-top: 15px', 'value': form.vars.value.libelle ?? null}}) }}
+						</div>
+						<div class="col">
+							<label class="col-form-label fw-bold">Date d'arrivée{{ form_widget(form.dateArrivee ?? null, { 'attr': {'class': 'form-control', 'type': 'date', 'style':'margin-top: 15px', 'id':'date-debut-input'}}) }}
 							</label>
 						</div>
 						<div class="col">
-							<label class="col-form-label fw-bold">Catégorie<select class="form-select" style="margin-top: 15px;">
-									<option value="12" selected="">This is item 1</option>
-									<option value="13">This is item 2</option>
-								</select>
+							<label class="col-form-label fw-bold">Date de départ{{ form_widget(form.dateDepart ?? null, { 'attr': {'class': 'form-control', 'type': 'date', 'style':'margin-top: 15px', 'id':'date-fin-input'} }) }}
 							</label>
-						</div>
-						<div class="col">
-							<label class="col-form-label fw-bold">Nombre de personne<input class="form-control" type="number" style="margin-top: 15px;" min="1"></label>
-						</div>
-						<div class="col">
-							<label class="col-form-label fw-bold">Date d'arrivée<input class="form-control" type="date" style="margin-top: 15px;"></label>
-						</div>
-						<div class="col">
-							<label class="col-form-label fw-bold">Date de départ<input class="form-control" type="date" style="margin-top: 15px;"></label>
 						</div>
 						<div class="col justify-content-center align-items-center align-content-center" style="height: 100%;">
-							<button class="btn btn-primary" type="button">Rechercher</button>
+							<button class="btn btn-primary" type="submit">Rechercher</button>
 						</div>
 					</div>
 				</div>
+				{{ form_end(form) }}
 			</form>
 			<div class="container py-4 py-xl-5">
 				<div class="row mb-5">
@@ -90,44 +85,54 @@
 					</div>
 				</div>
 				<div class="row gy-4 row-cols-1 row-cols-md-2 row-cols-xl-3">
-					<div class="col">
-						<div class="card"><img class="card-img-top w-100 d-block fit-cover" style="height: 200px;" src="/client/assets/img/room4.jpg">
-							<div class="card-body p-4">
-								<div class="col">
-									<p class="fw-bold text-primary mb-0">2 personnes</p>
-									<h4 style="margin-top: 0.5rem;">Standard</h4>
-									<p>13 restantes</p>
-									<div class="row">
-										<div class="col" style="margin-bottom: 1rem;">
-											<span class="badge bg-primary" style="margin-right: 1rem;padding: 0.5rem;">42</span>
-											<span class="badge bg-primary"></span>
-											<span class="badge bg-primary" style="padding: 0.5rem;">TV</span>
-										</div>
-									</div>
-									<div class="row">
-										<div class="col">
-											<input class="form-control" type="number" style="margin-top: 15px;" min="0">
-										</div>
-										<div class="col my-2">
-											<a class="btn btn-primary fs-8 py-2 px-4 text-white" role="button" href="#">Ajouter</a>
-										</div>
-									</div>
+					´
+					{% for resultat in resultats %}
+						<div class="col">
 
-								</div>
-								<div class="d-flex">
-									<div></div>
+							<div class="card"><img class="card-img-top w-100 d-block fit-cover" style="height: 200px;" src="/client/assets/img/room4.jpg">
+								<div class="card-body p-4">
+									<div class="col">
+										<p class="fw-bold text-primary mb-0">{{ resultat.categorie.libelle }}</p>
+										<h4 style="margin-top: 0.5rem;">{{ resultat.categorie.tarif }}
+											€</h4>
+										<div class="row">
+											<div class="col" style="margin-bottom: 1rem;">
+
+												{% for equipement in resultat.categorie.equipement %}
+													<span class="badge bg-primary" style="padding: 0.5rem;">{{ equipement }}</span>
+												{% endfor %}
+
+											</div>
+										</div>
+										<div class="row">
+											<div class="col">
+												<input id="inputChambre" class="form-control input-chambre" type="number" style="margin-top: 15px;" min="0">
+											</div>
+											<div class="col my-2">
+												<a class="btn btn-primary fs-8 py-2 px-4 text-white add-button" data-chambre-id={{ resultat.id}} role="button" href="#">Ajouter</a>
+											</div>
+											<div class="col my-2">
+												<a class="btn btn-secondary fs-8 py-2 px-4 text-white" role="button" href="#">Annuler</a>
+											</div>
+										</div>
+
+									</div>
+									<div class="d-flex">
+										<div></div>
+									</div>
 								</div>
 							</div>
+
 						</div>
-					</div>
+					{% endfor %}
 				</div>
 			</div>
 			<section class="py-4 py-xl-5">
 				<div class="container">
 					<div class="text-dark bg-light border rounded border-0 border-light d-flex flex-column justify-content-between flex-lg-row p-4 p-md-5">
-						<div class="pb-2 pb-lg-1">
+						<div id="panier-content" class="pb-2 pb-lg-1">
 							<h2 class="fw-bold mb-2">Panier</h2>
-							<p class="mb-0">Imperdiet consectetur dolor, tristique himenaeos ultrices tristique neque.</p>
+							<span id="chambre-id-in-panier"></span>
 						</div>
 						<div class="my-2">
 							<a class="btn btn-primary fs-5 py-2 px-4" role="button" href="#" data-bs-toggle="modal" data-bs-target="#modal-1">Réserver</a>
@@ -143,13 +148,13 @@
 							<button class="btn-close" type="button" aria-label="Close" data-bs-dismiss="modal"></button>
 						</div>
 						<div class="modal-body d-flex flex-column">
-							<label class="form-label d-flex flex-column justify-content-center align-items-center">Nom<input type="text"></label>
-							<label class="form-label d-flex flex-column align-items-center">Email<input type="email"></label>
-							<label class="form-label d-flex flex-column justify-content-center align-items-center">Téléphone<input type="tel"></label>
+							<label class="form-label d-flex flex-column justify-content-center align-items-center">Nom<input id="nom-client-input" type="text"></label>
+							<label class="form-label d-flex flex-column align-items-center">Email<input type="email" id="email-client-input"></label>
+							<label class="form-label d-flex flex-column justify-content-center align-items-center">Téléphone<input type="tel" id="tel-client-input"></label>
 						</div>
 						<div class="modal-footer">
 							<button class="btn btn-light" type="button" data-bs-dismiss="modal">Annuler</button>
-							<button class="btn btn-primary" type="button">Enregistrer</button>
+							<button class="btn btn-primary" type="submit" id="enregistrer-button">Enregistrer</button>
 						</div>
 					</div>
 				</div>
@@ -161,13 +166,13 @@
 							<h3 class="fs-6 text-white">Services</h3>
 							<ul class="list-unstyled">
 								<li>
-									<a class="link-light" href="#">Web design</a>
+									<a class="link-light" href="#">Test</a>
 								</li>
 								<li>
-									<a class="link-light" href="#">Development</a>
+									<a class="link-light" href="#">Test</a>
 								</li>
 								<li>
-									<a class="link-light" href="#">Hosting</a>
+									<a class="link-light" href="#">Test</a>
 								</li>
 							</ul>
 						</div>
@@ -175,13 +180,13 @@
 							<h3 class="fs-6 text-white">About</h3>
 							<ul class="list-unstyled">
 								<li>
-									<a class="link-light" href="#">Company</a>
+									<a class="link-light" href="#">Test</a>
 								</li>
 								<li>
-									<a class="link-light" href="#">Team</a>
+									<a class="link-light" href="#">Test</a>
 								</li>
 								<li>
-									<a class="link-light" href="#">Legacy</a>
+									<a class="link-light" href="#">Test</a>
 								</li>
 							</ul>
 						</div>
@@ -189,13 +194,13 @@
 							<h3 class="fs-6 text-white">Careers</h3>
 							<ul class="list-unstyled">
 								<li>
-									<a class="link-light" href="#">Job openings</a>
+									<a class="link-light" href="#">Test</a>
 								</li>
 								<li>
-									<a class="link-light" href="#">Employee success</a>
+									<a class="link-light" href="#">Test</a>
 								</li>
 								<li>
-									<a class="link-light" href="#">Benefits</a>
+									<a class="link-light" href="#">Test</a>
 								</li>
 							</ul>
 						</div>
@@ -236,6 +241,83 @@
 				</div>
 			</footer>
 			{% block javascripts %}
+				<script>
+					document.addEventListener('DOMContentLoaded', function () {
+    var enregistrerButton = document.getElementById('enregistrer-button');
+    var inputElement = document.querySelector('.input-chambre');
+    var addButtons = document.querySelectorAll('.btn-primary.add-button');
+
+    // Déplacez la déclaration de createReservation ici
+    function createReservation(chambreId, nomClient, telClient, emailClient) {
+        // Utilisez Fetch pour envoyer les données au serveur Symfony
+        fetch('/create-reservation', {
+            method: 'POST',
+            headers: {
+                'Content-Type': 'application/x-www-form-urlencoded',
+            },
+            body: new URLSearchParams({
+                chambreId: chambreId,
+                nom_client: nomClient,
+                tel_client: telClient,
+                email_client: emailClient,
+            }),
+        })
+        .then(response => {
+            if (!response.ok) {
+                throw new Error('Network response was not ok');
+            }
+            return response.text();
+        })
+        .then(data => {
+            // La requête a réussi, vous pouvez effectuer des actions supplémentaires si nécessaire
+            console.log('Réservation créée avec succès!');
+        })
+        .catch(error => {
+            console.error('There was a problem with the fetch operation:', error);
+        });
+    }
+
+    addButtons.forEach(function (addButton) {
+        addButton.addEventListener('click', function () {
+            // Récupérez la valeur de l'input
+            var inputValue = inputElement ? inputElement.value : null;
+
+            var spanElement = document.getElementById('chambre-id-in-panier');
+            if (spanElement) {
+                spanElement.innerHTML = inputValue;
+            }
+        });
+    });
+
+    if (enregistrerButton) {
+        enregistrerButton.addEventListener('click', function () {
+            // Récupérez les informations du panier
+            var panierContent = document.getElementById('chambre-id-in-panier');
+            var nomClientInput = document.getElementById('nom-client-input');
+            var telClientInput = document.getElementById('tel-client-input');
+            var emailClientInput = document.getElementById('email-client-input');
+
+            if (panierContent && nomClientInput && telClientInput && emailClientInput) {
+                var panierContentText = panierContent.innerText;
+                var values = panierContentText.split(', ');
+                var chambreId = values[0].split(': ')[1];
+
+                // Récupérez les valeurs des champs de la modal
+                var nomClient = nomClientInput.value;
+                var telClient = telClientInput.value;
+                var emailClient = emailClientInput.value;
+
+                console.log(nomClient, telClient, emailClient);
+
+                createReservation(chambreId, nomClient, telClient, emailClient);
+            }
+        });
+    }
+});
+
+				</script>
+
+
 				<script src="/client/assets/bootstrap/js/bootstrap.min.js"></script>
 				<script src="https://cdn.reflowhq.com/v2/toolkit.min.js" data-testmode="true"></script>
 				<script src="/client/assets/js/bs-init.js"></script>

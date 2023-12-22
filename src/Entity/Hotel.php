@@ -21,9 +21,6 @@ class Hotel
     #[ORM\Column(length: 255)]
     private ?string $lieu = null;
 
-    #[ORM\Column]
-    private ?int $nb_chambre = null;
-
     #[ORM\OneToMany(mappedBy: 'hotel', targetEntity: Chambre::class)]
     private Collection $chambres;
 
@@ -65,18 +62,6 @@ class Hotel
     public function setLieu(string $lieu): static
     {
         $this->lieu = $lieu;
-
-        return $this;
-    }
-
-    public function getNbChambre(): ?int
-    {
-        return $this->nb_chambre;
-    }
-
-    public function setNbChambre(int $nb_chambre): static
-    {
-        $this->nb_chambre = $nb_chambre;
 
         return $this;
     }

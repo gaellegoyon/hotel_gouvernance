@@ -55,25 +55,17 @@
 				<div style="position: absolute;bottom: 50%;width: 100%;">
 					<h1 class="fs-1 text-center" style="color: var(--bs-body-bg);">Osez l'excellence, vivez le luxe</h1>
 				</div>
-				{{ form_start(rechercheForm, {'style': 'box-shadow: 0px 0px 19px 0px rgba(0,0,0,0.1), position: relative, bottom: 10%, padding: 40px, border-radius 1rem'})}}
-				<div class="container">
-					<div class="row">
+				
+				{{ form_start(rechercheForm, {'style': 'box-shadow: 0px 10px 15px 0px rgba(0,0,0,0.1), position: relative, bottom: 10%, padding: 40px, border-radius 1rem', 'class':' justify-content-center align-items-center align-content-center'})}}
+				<div class="col text-start justify-content-center align-items-center align-content-center">
+					<div class="row flex-shrink-1 flex-fill justify-content-evenly align-items-center align-content-center">
 						<div class="col-md-2">
 							{{ form_label(rechercheForm.lieu, 'Lieu', { 'label_attr': {'class': 'col-form-label fw-bold'} }) }}
 							{{ form_widget(rechercheForm.lieu, { 'attr': {'class': 'form-select', 'style':'margin-top: 15px'}}) }}
 						</div>
 						<div class="col-md-2">
-							<label class="col-form-label fw-bold">Catégorie</label>
-							<select class="form-select" style="margin-top: 15px">
-								<option value="12" selected="">This is item 1</option>
-								<option value="13">This is item 2</option>
-							</select>
-						</div>
-
-
-						<div class="col-md-2">
-							<label class="col-form-label fw-bold">Nombre de personnes</label>
-							{{ form_widget(rechercheForm.nombrePersonnes, { 'attr': {'class': 'form-control', 'type': 'number', 'style':'margin-top: 15px', 'min': 1, 'max': 20} }) }}
+							{{ form_label(rechercheForm.libelle, 'Categorie', { 'label_attr': {'class': 'col-form-label fw-bold'} }) }}
+							{{ form_widget(rechercheForm.libelle, { 'attr': {'class': 'form-select', 'style':'margin-top: 15px'}}) }}
 						</div>
 						<div class="col-md-3">
 							<label class="col-form-label fw-bold">Date d'arrivée</label>
@@ -90,7 +82,7 @@
 
 					<div class="row">
 						<div class="col-md-12 text-center" style="margin-top: 30px;">
-							<button class="btn btn-primary" type="button">Rechercher</button>
+							<button class="btn btn-primary" type="submit">Rechercher</button>
 						</div>
 					</div>
 				</div>
@@ -258,6 +250,7 @@
 			{% block javascripts %}
 				<script src="/client/assets/bootstrap/js/bootstrap.min.js"></script>
 				<script src="/client/assets/js/bs-init.js"></script>
+				
 			{% endblock %}
 		{% endblock %}
 	</body>

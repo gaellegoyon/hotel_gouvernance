@@ -17,7 +17,7 @@ class Chambre
 
     #[ORM\ManyToOne(inversedBy: 'chambres')]
     #[ORM\JoinColumn(nullable: false)]
-    private ?hotel $hotel = null;
+    private ?Hotel $hotel = null;
 
     #[ORM\Column]
     private ?int $numero = null;
@@ -30,6 +30,9 @@ class Chambre
 
     #[ORM\OneToMany(mappedBy: 'chambre', targetEntity: Reservation::class)]
     private Collection $reservations;
+
+    #[ORM\ManyToOne(inversedBy: 'chambres')]
+    private ?Categorie $categorie = null;
 
     public function __construct()
     {
@@ -115,6 +118,18 @@ class Chambre
                 $reservation->setChambre(null);
             }
         }
+
+        return $this;
+    }
+
+    public function getCategorie(): ?categorie
+    {
+        return $this->categorie;
+    }
+
+    public function setCategorie(?categorie $categorie): static
+    {
+        $this->categorie = $categorie;
 
         return $this;
     }

@@ -10,6 +10,13 @@
   color: var(--bs-primary);
 }
 
+#datepicker table tr td.disabled,
+#datepicker table tr td.disabled:hover {
+  background: none !important;
+  color: #999999 !important;
+  cursor: default !important;
+}
+
 .bs-icon-xs {
   --bs-icon-size: 1rem;
   width: calc(var(--bs-icon-size) * 1.5);

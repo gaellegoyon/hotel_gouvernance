@@ -21,6 +21,33 @@ class ChambreRepository extends ServiceEntityRepository
         parent::__construct($registry, Chambre::class);
     }
 
+public function rechercherChambres($lieu, $libelle, $dateArrivee, $dateDepart)
+{
+    $queryBuilder = $this->createQueryBuilder('c')
+    ->select('c')
+    ->addSelect('cat')
+    ->join('c.hotel', 'h')
+    ->join('c.categorie', 'cat')
+    ->leftJoin('c.reservations', 'res')
+    ->where('h.lieu = :lieu')
+    ->andWhere('cat.libelle = :libelle')
+    ->andWhere('(
+        (res.date_debut NOT BETWEEN :dateArrivee AND :dateDepart)
+        OR (res.date_fin NOT BETWEEN :dateArrivee AND :dateDepart)
+        OR (:dateArrivee NOT BETWEEN res.date_debut AND res.date_fin)
+        OR (:dateDepart NOT BETWEEN res.date_debut AND res.date_fin)
+        )')
+
+        ->setParameter('lieu', $lieu)
+        ->setParameter('libelle', $libelle)
+        ->setParameter('dateArrivee', $dateArrivee)
+        ->setParameter('dateDepart', $dateDepart);
+
+
+    // Exécutez la requête et retournez les résultats
+    return $queryBuilder->getQuery()->getResult();
+}
+
 //    /**
 //     * @return Chambre[] Returns an array of Chambre objects
 //     */

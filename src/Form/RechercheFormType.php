@@ -2,15 +2,12 @@
 
 namespace App\Form;
 
+use App\Repository\CategorieRepository;
 use Symfony\Component\Form\Extension\Core\Type\DateType;
-use Symfony\Component\Form\Extension\Core\Type\IntegerType;
-use Symfony\Component\HttpFoundation\Request;
-use App\Entity\Hotel;
 use App\Repository\HotelRepository;
 use Symfony\Component\Form\AbstractType;
 use Symfony\Component\Form\Extension\Core\Type\ChoiceType;
 use Symfony\Component\Form\FormBuilderInterface;
-use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\OptionsResolver\OptionsResolver;
 
 class RechercheFormType extends AbstractType
@@ -18,53 +15,69 @@ class RechercheFormType extends AbstractType
 
     private $hotelRepository;
 
-    public function __construct(HotelRepository $hotelRepository)
+    private $categorieRepository;
+
+
+    public function __construct(HotelRepository $hotelRepository, CategorieRepository $categorieRepository)
     {
         $this->hotelRepository = $hotelRepository;
+        $this->categorieRepository = $categorieRepository;
     }
 
     public function buildForm(FormBuilderInterface $builder, array $options): void
     {
 
         $hotels = $this->hotelRepository->findAll();
+        $categories = $this->categorieRepository->findAll();
 
-        $choices = [];
+
+        $choicesLieu = [];
         foreach ($hotels as $hotel) {
-            $choices[$hotel->getLieu()] = $hotel->getLieu();
+            $choicesLieu[$hotel->getLieu()] = $hotel->getLieu();
         }
 
+        $choicesLibelleCat = [];
+        foreach ($categories as $categorie) {
+            $choicesLibelleCat[$categorie->getLibelle()] = $categorie->getLibelle();
+        }
 
-        $builder 
-        ->add('lieu', ChoiceType::class, [
-            'label' => "Choisir une location",
-            'multiple' => false, 
-            'expanded' => false,
-            'choices' => $choices,
-        ])
-        ->add('nombrePersonnes', IntegerType::class, [
-            'label' => 'Nombre de personnes',
-            'attr' => ['min' => 1, 'max' => 20],
-        ])
-        ->add('dateArrivee', DateType::class, [
-            'label' => 'Date d\'arrivée',
-            'widget' => 'single_text',
-        ])
-        ->add('dateDepart', DateType::class, [
-            'label' => 'Date de départ',
-            'widget' => 'single_text',
-        ])
+$builder
 
-        ->setAction($options['form_action'])  // Ajouter l'action du formulaire
-        ->setMethod('GET');  // Définir la méthode HTTP
-    }
-
+->setAction($options['form_action']) 
+->setMethod('POST')
+            ->add('lieu', ChoiceType::class, [
+                'label' => "Choisir une location",
+                'multiple' => false,
+                'expanded' => false,
+                'choices' => $choicesLieu,
+            ])
+            ->add('libelle', ChoiceType::class, [
+                'label' => "Catégorie",
+                'multiple' => false,
+                'expanded' => false,
+                'choices' => $choicesLibelleCat,
+            ])
+            ->add('dateArrivee', DateType::class, [
+                'label' => 'Date d\'arrivée',
+                'widget' => 'single_text',
+            ])
+            ->add('dateDepart', DateType::class, [
+                'label' => 'Date de départ',
+                'widget' => 'single_text',
+            ]);
     
+
+    }
 
     public function configureOptions(OptionsResolver $resolver): void
     {
         $resolver->setDefaults([
-        'data_class' => null,
-        'form_action' => '/',  // Définir l'action par défaut
+            'form_action' => '/search',
+            'data_class' => null,
+            'lieu' => null,
+            'libelle' => null,
+            'dateArrivee' => null,
+            'dateDepart' => null,
         ]);
     }
 }

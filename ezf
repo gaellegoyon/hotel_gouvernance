@@ -1,0 +1,15 @@
+SELECT *
+FROM chambre as c
+JOIN hotel as h ON c.hotel_id = h.id
+LEFT JOIN reservation as res ON c.id = res.chambre_id
+WHERE h.lieu = 'lieu0'
+
+
+SELECT *
+    FROM chambre as c
+    JOIN hotel as h ON c.hotel_id = h.id
+    LEFT JOIN reservation as res ON c.id = res.chambre_id
+    WHERE h.lieu = 'lieu0'
+    ;
+
+
