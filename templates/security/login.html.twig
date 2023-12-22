@@ -14,18 +14,42 @@
         </div>
     {% endif %}
 
-    <h1 class="h3 mb-3 font-weight-normal">Please sign in</h1>
-    <label for="inputEmail">Email</label>
-    <input type="email" value="{{ last_username }}" name="email" id="inputEmail" class="form-control" autocomplete="email" required autofocus>
-    <label for="inputPassword">Password</label>
-    <input type="password" name="password" id="inputPassword" class="form-control" autocomplete="current-password" required>
-
-    <input type="hidden" name="_csrf_token"
-           value="{{ csrf_token('authenticate') }}"
-    >
-
-    <button class="btn btn-lg btn-primary" type="submit">
-        Sign in
-    </button>
+    <div class="main-wrapper login-body">
+		<div class="login-wrapper">
+			<div class="container">
+				<div class="loginbox">
+					<div class="login-left"> <img class="img-fluid" src="/admin/assets/img/logo.png" alt="Logo"> </div>
+					<div class="login-right">
+						<div class="login-right-wrap">
+							<h1>Connexion</h1>
+							<p class="account-subtitle">Accédez à notre Dashboard</p>
+							<form action="dashboard.html.twig">
+								<div class="form-group">
+									<input class="form-control" value="{{ last_username }}" name="email" type="email" id="inputEmail" autocomplete="email" required autofocus placeholder="Email">
+                                </div>
+								<div class="form-group">
+									<input class="form-control" id="inputPassword"  autocomplete="current-password" required name="password" type="password" placeholder="Mot de passe">
+                                </div>
+                                <input type="hidden" name="_csrf_token"
+                                    value="{{ csrf_token('authenticate') }}"
+                                >
+								<div class="form-group">
+									<button class="btn btn-primary btn-block" type="submit">Connexion</button>
+								</div>
+							</form>
+						</div>
+					</div>
+				</div>
+			</div>
+		</div>
+	</div>
 </form>
 {% endblock %}
+{% block stylesheets %}
+	<link rel="stylesheet" href="/admin/assets/css/bootstrap.min.css">
+	<link rel="stylesheet" href="/admin/assets/plugins/fontawesome/css/fontawesome.min.css">
+	<link rel="stylesheet" type="text/css" href="/admin/assets/plugins/fontawesome/css/all.min.css">
+	<link rel="stylesheet" href="/admin/assets/css/feathericon.min.css">
+	<link rel="stylesheet" href="/admin/assets/plugins/morris/morris.css">
+	<link rel="stylesheet" href="/admin/assets/css/style.css">
+	{% endblock %}
